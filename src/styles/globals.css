@@ -1,0 +1,165 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=Oswald:wght@400;500;600&display=swap');
+@import "tailwindcss";
+@import "./grain.css";
+
+:root {
+  --bg-page: #f4f1ea;
+  --bg-surface: #fbf9f4;
+  --bg-sunken: #eae5da;
+  --bg-device: #f0ece2;
+  --bg-cloud: #f7f4ec;
+
+  --ink: #131313;
+  --ink-secondary: #4a4741;
+  --ink-muted: #767067;
+  --ink-inverse: #f4f1ea;
+
+  --rule: #d8d2c4;
+  --rule-strong: #b3ab99;
+  --rule-ink: #131313;
+
+  --accent: #a8402a;
+  --accent-hover: #8d3521;
+  --accent-wash: #f6e4de;
+  --accent-ink: #fbf9f4;
+
+  --mark: #1f5a52;
+  --mark-wash: #dcebe7;
+
+  --ok: #2f6b3f;
+  --warn: #8a5b00;
+  --warn-wash: #f7ecd6;
+  --fail: #a8402a;
+
+  --grain: rgba(19, 19, 19, 0.035);
+
+  --radius-none: 0px;
+  --radius-sm: 2px;
+  --radius-md: 3px;
+
+  --shadow-raised: 0 1px 0 rgba(19,19,19,0.04), 0 2px 6px rgba(19,19,19,0.06);
+  --shadow-stamp: inset 0 0 0 1px var(--accent);
+
+  --dur-1: 80ms;
+  --dur-2: 140ms;
+  --dur-3: 240ms;
+  --dur-4: 480ms;
+
+  --ease-snap: cubic-bezier(0.2, 0, 0, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --font-sans: 'Instrument Sans', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --font-stamp: 'Oswald', 'Instrument Sans', sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root { min-height: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg-page);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, p { margin: 0; }
+button, input, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+button:disabled { cursor: not-allowed; }
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.font-sans { font-family: var(--font-sans); }
+.font-mono { font-family: var(--font-mono); }
+.font-stamp { font-family: var(--font-stamp); }
+
+::selection { background: var(--mark-wash); color: var(--mark); }
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-sunken); }
+::-webkit-scrollbar-thumb { background: var(--rule-strong); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-muted); }
+
+mark.entity {
+  background: var(--mark-wash);
+  color: var(--mark);
+  padding: 0 2px;
+  border-radius: 1px;
+  border-bottom: 1px solid var(--mark);
+  box-decoration-break: clone;
+}
+mark.entity[data-type='ACCOUNT'] { border-bottom-style: dashed; }
+mark.entity[data-type='ADDRESS'] { border-bottom-style: dotted; }
+mark.entity[data-uncertain='true'] {
+  background: var(--warn-wash);
+  color: var(--warn);
+  border-bottom: 1px dashed var(--warn);
+}
+
+.token-chip {
+  background: var(--accent-wash);
+  color: var(--accent);
+  border-radius: 2px;
+  font-family: var(--font-mono);
+}
+
+@keyframes elide-sweep {
+  from { transform: translateX(0); }
+  to { transform: translateX(100%); }
+}
+@keyframes elide-stamp {
+  from { transform: scale(1.08) rotate(-2deg); }
+  to { transform: scale(1) rotate(-2deg); }
+}
+@keyframes elide-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+@keyframes elide-restore {
+  from { background-color: var(--accent-wash); }
+  to { background-color: transparent; }
+}
+@keyframes elide-toast {
+  from { opacity: 0; transform: translate(-50%, 8px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+@keyframes elide-mark {
+  from { transform: scaleX(0.2); }
+  to { transform: scaleX(1); }
+}
+
+.sweep-bar {
+  animation: elide-sweep var(--dur-3) var(--ease-snap) forwards;
+}
+.stamp-on-device { animation: elide-stamp 180ms var(--ease-snap); }
+.chip-initialising { animation: elide-pulse 900ms ease-in-out infinite; }
+.restored-value { animation: elide-restore var(--dur-4) var(--ease-out); }
+.entity-mark-reveal { animation: elide-mark var(--dur-2) var(--ease-snap) both; transform-origin: left; }
+.toast-enter { animation: elide-toast 180ms var(--ease-out); }
+
+.skeleton {
+  background: linear-gradient(90deg, var(--bg-sunken) 0%, var(--bg-surface) 50%, var(--bg-sunken) 100%);
+  background-size: 200% 100%;
+  animation: skeleton-shift 1.2s linear infinite;
+}
+@keyframes skeleton-shift {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .sweep-bar { display: none; }
+}

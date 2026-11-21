@@ -1,0 +1,16 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /crossings/{id} {
+      allow read: if request.auth != null && resource.data.uid == request.auth.uid;
+      allow create: if request.auth != null
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.keys().hasOnly(
+             ['uid','counts','flagged','scrubInference','answerInference','policyVersion','createdAt'])
+        && request.resource.data.counts.keys().hasOnly(
+             ['NAME','ID','ACCOUNT','ADDRESS','CONTACT','CUSTOM']);
+      allow update, delete: if false;
+    }
+    match /{document=**} { allow read, write: if false; }
+  }
+}

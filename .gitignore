@@ -1,0 +1,11 @@
+node_modules/
+.npm-cache/
+dist/
+.env
+.env.*
+!.env.example
+.firebase/
+firebase-debug.log
+extension/build/
+*.tsbuildinfo
+.DS_Store

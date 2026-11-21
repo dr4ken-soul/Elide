@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "noEmit": false,
+    "outDir": "extension/build",
+    "rootDir": "extension",
+    "types": ["chrome"],
+    "skipLibCheck": true
+  },
+  "include": ["extension/service-worker.ts"]
+}
