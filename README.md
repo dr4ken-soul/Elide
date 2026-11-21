@@ -26,6 +26,8 @@ The Chrome side panel is built alongside the web app:
 npm run build
 ```
 
+Vercel deployment, once the CLI is logged in: `npm run deploy:vercel`.
+
 Load `extension/build` at `chrome://extensions` with **Developer mode** on, then choose **Load unpacked**. The panel mounts the same bundle at `#/panel`.
 
 With no Firebase credentials the app still runs: deterministic passes mark emails, phone numbers, IBANs, Luhn-valid cards, policy patterns and custom terms. The UI reports `RULES ONLY` rather than pretending a model ran. The cloud answer needs Firebase credentials and a network connection.
@@ -77,12 +79,12 @@ The extension manifest requests `sidePanel` and `storage`, and nothing else. No 
 
 ## Firestore rules evidence
 
-The rules are append-only and key-allowlisted. Two rejections were verified with the Firestore emulator:
+The rules are append-only and key-allowlisted. Two rejections are specified, with the exact rule that causes each one:
 
 1. A create containing an extra `text` field is rejected because `request.resource.data.keys().hasOnly(...)` fails.
 2. A read of another uid's crossing is rejected because `resource.data.uid == request.auth.uid` fails.
 
-Run `npx firebase emulators:start --only firestore` from this directory to reproduce both against `firestore.rules`. Deploy with `npx firebase deploy --only firestore:rules` after selecting a project.
+Run `npx firebase emulators:start --only firestore` from this directory to reproduce both against `firestore.rules`. Deploy with `npx firebase deploy --only firestore:rules` after selecting a project. The Java runtime was not available in the build environment, so these two rejections are recorded as unverified here rather than claimed as tested.
 
 ## Design and documentation
 

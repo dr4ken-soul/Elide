@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:ui": "vitest --ui",
-    "typecheck": "tsc -b --pretty false"
+    "typecheck": "tsc -b --pretty false",
+    "deploy:vercel": "vercel --prod --yes"
   },
   "dependencies": {
     "firebase": "^12.6.0",
