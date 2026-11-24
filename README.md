@@ -6,6 +6,8 @@ Elide is a checkpoint in front of cloud AI. It removes client names, patient ide
 
 Built for **#BuildHybridAI 2026** with Firebase AI Logic hybrid inference.
 
+Hosted app: https://elide-wheat.vercel.app/
+
 ## The honest claim
 
 > Elide removes identifiers from text before it is sent to a cloud model, and restores them afterwards. It cannot guarantee that no re-identification is possible, because prose can imply identity without naming it. It does not control what the remote provider retains. It is a reduction in exposure, applied before the request, not a guarantee of anonymity.

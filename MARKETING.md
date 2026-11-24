@@ -170,7 +170,7 @@ app check, remote config for team policy, firestore for an append-only ledger of
 
 chrome side panel with no tabs, no all_urls, no content script. it is a checkpoint, not a watcher
 
-[hosted link] [repo] [video]
+https://elide-wheat.vercel.app/ https://github.com/dr4ken-soul/Elide [video]
 ```
 
 ---
