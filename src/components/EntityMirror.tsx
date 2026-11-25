@@ -1,4 +1,4 @@
-import { useMemo, useRef, type ReactNode } from 'react'
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import type { Span } from '../lib/scene/schema'
 
 interface EntityMirrorProps {
@@ -14,8 +14,22 @@ function markType(type: Span['type']): string {
   return type.toLowerCase()
 }
 
+const SHARED = 'm-0 resize-none border-0 bg-transparent p-0 font-sans text-[15px] leading-[1.75] tracking-normal whitespace-pre-wrap break-words'
+
 export function EntityMirror({ value, spans, onChange, onGesture, scanning = false, describedBy }: EntityMirrorProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const [scrollTop, setScrollTop] = useState(0)
+  const [contentWidth, setContentWidth] = useState<number>()
+
+  useEffect(() => {
+    const textarea = textareaRef.current
+    if (!textarea) return
+    const measure = (): void => setContentWidth(textarea.clientWidth)
+    measure()
+    const observer = new ResizeObserver(measure)
+    observer.observe(textarea)
+    return () => observer.disconnect()
+  }, [])
 
   const pieces = useMemo<ReactNode[]>(() => {
     const ordered = [...spans].sort((left, right) => left.start - right.start)
@@ -42,13 +56,15 @@ export function EntityMirror({ value, spans, onChange, onGesture, scanning = fal
     return nodes
   }, [spans, value, scanning])
 
-  const shared = 'm-0 w-full resize-none border-0 bg-transparent p-0 font-sans text-[15px] leading-[1.75] tracking-normal whitespace-pre-wrap break-words'
-
   return (
-    <div className="relative">
+    <div className="relative overflow-hidden">
       <div
         aria-hidden="true"
-        className={`${shared} pointer-events-none absolute inset-0 z-0 text-[var(--ink)]`}
+        className={`${SHARED} pointer-events-none absolute inset-0 z-0 overflow-hidden text-[var(--ink)]`}
+        style={{
+          width: contentWidth === undefined ? '100%' : `${contentWidth}px`,
+          transform: `translateY(${-scrollTop}px)`,
+        }}
       >
         {pieces}
       </div>
@@ -56,13 +72,14 @@ export function EntityMirror({ value, spans, onChange, onGesture, scanning = fal
         ref={textareaRef}
         value={value}
         onChange={(event) => onChange(event.target.value)}
+        onScroll={(event) => setScrollTop(event.currentTarget.scrollTop)}
         onKeyDown={() => onGesture?.()}
         onPaste={() => onGesture?.()}
         aria-label="Document text"
         aria-describedby={describedBy}
         spellCheck={false}
         placeholder=""
-        className={`${shared} relative z-10 min-h-[40vh] text-transparent caret-[var(--accent)] outline-none placeholder:text-transparent`}
+        className={`${SHARED} relative z-10 min-h-[40vh] w-full text-transparent caret-[var(--accent)] outline-none placeholder:text-transparent`}
       />
     </div>
   )

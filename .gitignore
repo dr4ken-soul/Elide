@@ -11,6 +11,7 @@ dist/
 .firebase/
 firebase-debug.log
 firestore-debug.log
+ui error/
 extension/build/
 *.tsbuildinfo
 .DS_Store
