@@ -8,6 +8,9 @@
 4. Click **Load unpacked**.
 5. Select `S:\Hackathon\Elide\extension\build`, the folder that contains `manifest.json`, `sidepanel.html`, `service-worker.js`, `icons` and `assets`.
 6. Pin Elide from the extensions menu and click its icon. The side panel opens with `Compose` and `Check` tabs.
+7. After any future `npm run build`, return to `chrome://extensions` and click the reload icon on the Elide card. Without that reload, Chrome keeps serving the old files.
+
+If clicking the icon shows the landing page instead of the panel, the extension is still running an older build. Reload the unpacked extension from `chrome://extensions`. The current build opens `sidepanel.html` directly at the panel route.
 
 To confirm the permission claim, open `extension\build\manifest.json`. The `permissions` array contains only `sidePanel` and `storage`. There is no `tabs`, `activeTab`, `<all_urls>` or content script.
 

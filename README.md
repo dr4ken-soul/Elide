@@ -97,7 +97,7 @@ npm run test:rules     # terminal 2
 
 Expected output: `PASS: create with a text field is rejected by the key allowlist`, `PASS: reading another uid crossing is rejected, reading your own succeeds`, and `PASS: delete is rejected, the ledger is append-only`.
 
-Deploy the same rules with `npm run firebase:rules:deploy` after `npm run firebase:login`.
+The same rules were deployed to the live Firebase project on 25 November 2026 with `npm run firebase:rules:deploy`; the Firebase CLI reported `released rules firestore.rules to cloud.firestore`. To redeploy them, run `npm run firebase:login` first if needed.
 
 ## Design and documentation
 
