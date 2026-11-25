@@ -41,7 +41,7 @@ There is also a second, honest use of hybrid: if Nano is unavailable on the devi
 | Ledger | Cloud Firestore, opt-in only | Team audit trail of counts, never content |
 | Identity | Firebase Authentication, anonymous by default | Stable principal for App Check and Firestore rules |
 | Testing | Vitest for the scrub pipeline | The span/masking logic is the part that must be provably correct |
-| Hosting | Firebase Hosting | Same project as the Firebase config; no CORS surface to manage |
+| Hosting | Vercel (Firebase Hosting optional) | Public HTTPS app from the same repo; Firebase Hosting is not required by the hackathon |
 | Repo licence | Apache-2.0 | Preferred by the rules, and visible in the About panel |
 
 No image generation, no 3D, no icon library, no component library. Icons are drawn with 1px divs or inline SVG paths authored for this product.
@@ -460,7 +460,7 @@ Order is chosen so that a working, submittable artefact exists at every point af
 6. Remote Config policy, `/policy`, `/ledger`, JSON export
 7. Firestore team ledger behind an explicit opt-in, with rules deployed
 8. Extension shell, side panel, minimal permissions, loaded unpacked
-9. Firebase Hosting deploy of the web app, public and free to use
+9. Vercel deploy of the web app, public and free to use
 10. README, `CLAUDE.md`, licence, repo public with Apache-2.0 visible in the About panel
 11. Demo video, 3 minutes maximum, YouTube, public: paste, marks sweep, outbound pane, answer, restore, stamp, ledger, extension panel, the limits band
 12. Submission: description, repo URL, hosted URL, video URL, platform selected as Web/Chrome

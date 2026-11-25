@@ -34,7 +34,7 @@ Reversible design choices are decided in this repository without asking. Claims 
 | Config | Firebase Remote Config, for team policy |
 | Ledger | Cloud Firestore, opt-in, append-only, counts only |
 | Identity | Firebase Authentication, anonymous by default |
-| Hosting | Firebase Hosting |
+| Hosting | Vercel (Firebase Hosting optional) |
 | Tests | Vitest, on the scrub pipeline |
 | Licence | Apache-2.0 |
 

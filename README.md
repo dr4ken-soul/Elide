@@ -71,7 +71,9 @@ Enable Firebase AI Logic, Anonymous Authentication, Firestore and Remote Config 
 | Remote Config | Team policy manifest and cloud model name | Every user hand-configures patterns |
 | Firestore | Opt-in, append-only ledger of counts, provenance and policy version | No audit trail a reviewer would accept |
 | Authentication | Anonymous principal for App Check and Firestore rules | Rules cannot be scoped per user |
-| Hosting | Public web app | Nothing to link to |
+| Public hosting | Vercel (Firebase Hosting optional) | Nothing to link to |
+
+Firebase Hosting was part of the original plan but is not required by the hackathon. The submitted app is hosted on Vercel at https://elide-wheat.vercel.app/; Firebase AI Logic, App Check, Remote Config, Firestore and Authentication remain the load-bearing Firebase products.
 
 The ledger holds counts. It never holds text, originals, tokens or document titles, and the Firestore rules enforce an allowlist of fields so it cannot start.
 
@@ -81,12 +83,21 @@ The extension manifest requests `sidePanel` and `storage`, and nothing else. No 
 
 ## Firestore rules evidence
 
-The rules are append-only and key-allowlisted. Two rejections are specified, with the exact rule that causes each one:
+The rules are append-only and key-allowlisted. Two rejections were verified against the Firestore emulator on 25 November 2026:
 
 1. A create containing an extra `text` field is rejected because `request.resource.data.keys().hasOnly(...)` fails.
 2. A read of another uid's crossing is rejected because `resource.data.uid == request.auth.uid` fails.
 
-Run `npx firebase emulators:start --only firestore` from this directory to reproduce both against `firestore.rules`. Deploy with `npx firebase deploy --only firestore:rules` after selecting a project. The Java runtime was not available in the build environment, so these two rejections are recorded as unverified here rather than claimed as tested.
+A third check confirms that `update` and `delete` are rejected, so the ledger is append-only. Reproduce all three with two terminals in this directory:
+
+```bash
+npm run emulators      # terminal 1, uses the portable JDK in tools/jdk
+npm run test:rules     # terminal 2
+```
+
+Expected output: `PASS: create with a text field is rejected by the key allowlist`, `PASS: reading another uid crossing is rejected, reading your own succeeds`, and `PASS: delete is rejected, the ledger is append-only`.
+
+Deploy the same rules with `npm run firebase:rules:deploy` after `npm run firebase:login`.
 
 ## Design and documentation
 
@@ -97,6 +108,7 @@ Run `npx firebase emulators:start --only firestore` from this directory to repro
 | `BUILD_GUIDE.md` | Ordered build steps and the pre-record audit |
 | `CLAUDE.md` | Persistent rules for this repository |
 | `MARKETING.md` | Submission description and demo video script |
+| `EXTENSION.md` | Loading the unpacked extension and enabling Gemini Nano |
 
 The supplied brand assets are copied from `logo/logo in site`, `logo/favicon` and `logo/extension` into `public/brand` and `extension/icons`.
 

@@ -1,11 +1,16 @@
 node_modules/
 .npm-cache/
+tools/jdk/
+tools/jdk21.zip
+tools/emulators/
+tools/tmp/
 dist/
 .env
 .env.*
 !.env.example
 .firebase/
 firebase-debug.log
+firestore-debug.log
 extension/build/
 *.tsbuildinfo
 .DS_Store

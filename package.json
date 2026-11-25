@@ -10,7 +10,11 @@
     "test": "vitest run",
     "test:ui": "vitest --ui",
     "typecheck": "tsc -b --pretty false",
-    "deploy:vercel": "vercel --prod --yes"
+    "deploy:vercel": "vercel --prod --yes",
+    "firebase:login": "firebase login",
+    "firebase:rules:deploy": "firebase deploy --only firestore:rules --project elide-78f37",
+    "emulators": "node scripts/run-emulators.mjs",
+    "test:rules": "node scripts/verify-firestore-rules.mjs"
   },
   "dependencies": {
     "firebase": "^12.6.0",
@@ -19,6 +23,7 @@
     "react-dom": "^19.1.1"
   },
   "devDependencies": {
+    "@firebase/rules-unit-testing": "^5.0.2",
     "@tailwindcss/vite": "^4.1.13",
     "@types/chrome": "^0.0.331",
     "@types/node": "^24.5.2",

@@ -149,10 +149,10 @@ The live crossing in §3.2 must be the real scrub function, not a mocked animati
 `/policy` and `/ledger` per `FRONTEND_SPEC.md` §4.8 and §4.7, then Remote Config wiring per `APP_BLUEPRINT.md` §10, then the opt-in team ledger with the rules in §9 deployed:
 
 ```bash
-firebase deploy --only firestore:rules
+npm run firebase:rules:deploy
 ```
 
-Verify with the rules emulator that a write containing a `text` field is rejected, and that a read of another user's crossing is rejected. Record both rejections; they belong in the README as evidence.
+Verify with `npm run emulators` and `npm run test:rules` that a write containing a `text` field is rejected, and that a read of another user's crossing is rejected. Both rejections were recorded in the README as evidence on 25 November 2026.
 
 ---
 
@@ -168,8 +168,10 @@ Then read `manifest.json` out loud in the video. The absence of `tabs`, `activeT
 
 ```bash
 npm run build
-firebase deploy --only hosting
+npm run deploy:vercel
 ```
+
+The submitted app is deployed on Vercel at https://elide-wheat.vercel.app/. Firebase Hosting is optional for this hackathon and was not used; `firebase.json` still contains a Hosting configuration if you want to deploy there as well.
 
 Public, HTTPS, free to use, no login wall for the landing page or the workbench. Anonymous auth handles the principal invisibly.
 
